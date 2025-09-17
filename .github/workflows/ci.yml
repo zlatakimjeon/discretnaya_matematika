@@ -1,0 +1,35 @@
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y gcc make
+    
+    - name: Build main program
+      run: |
+        mkdir -p bin
+        gcc -Wall -Wextra -std=c99 -o bin/main src/subset_iterator.c
+    
+    - name: Build and run tests
+      run: |
+        gcc -Wall -Wextra -std=c99 -o bin/test_runner tests/test_runner.c tests/test_subset_iterator.c
+        ./bin/test_runner
+    
+    - name: Strict compilation check
+      run: |
+        gcc -Wall -Wextra -Werror -std=c99 -o bin/strict_test src/subset_iterator.c
+    
+    - name: Test basic functionality
+      run: |
+        echo "2" | timeout 5s ./bin/main > output.txt
+        if [ $? -ne 0 ]; then exit 1; fi
