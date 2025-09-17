@@ -1,4 +1,3 @@
-код программы:
 #include <stdio.h>
 #include <stdlib.h>
 
