@@ -16,17 +16,17 @@ jobs:
         ls -la tests/
         
         if [ ! -f "src/subset_iterator.c" ]; then
-          echo "ERROR: Файл src/subset_iterator.c не найден!"
+          echo "ERROR: Файл src/subset_iterator.h не найден!"
           exit 1
         fi
         
         if [ ! -f "tests/test_runner.c" ]; then
-          echo "ERROR: Файл tests/test_runner.c не найден!"
+          echo "ERROR: Файл tests/test_runner.h не найден!"
           exit 1
         fi
         
         if [ ! -f "tests/test_subset_iterator.c" ]; then
-          echo "ERROR: Файл tests/test_subset_iterator.c не найден!"
+          echo "ERROR: Файл tests/test_subset_iterator.h не найден!"
           exit 1
         fi
     
@@ -37,18 +37,18 @@ jobs:
       run: mkdir -p bin
     
     - name: Build main program
-      run: gcc -Wall -Wextra -std=c99 -o bin/main src/subset_iterator.c
+      run: gcc -Wall -Wextra -std=c99 -o bin/main src/subset_iterator.h
     
     - name: Build tests
-      run: gcc -Wall -Wextra -std=c99 -o bin/test_runner tests/test_runner.c tests/test_subset_iterator.c
+      run: gcc -Wall -Wextra -std=c99 -o bin/test_runner tests/test_runner.c tests/test_subset_iterator.h
     
     - name: Run tests
       run: ./bin/test_runner
     
     - name: Strict compilation check
       run: |
-        gcc -Wall -Wextra -Werror -std=c99 -c src/subset_iterator.c
-        gcc -Wall -Wextra -Werror -std=c99 -c tests/test_subset_iterator.c
+        gcc -Wall -Wextra -Werror -std=c99 -c src/subset_iterator.h
+        gcc -Wall -Wextra -Werror -std=c99 -c tests/test_subset_iterator.h
     
     - name: Build success
-      run: echo "✅ Build and tests completed successfully"
+      run: echo "Build and tests completed successfully"

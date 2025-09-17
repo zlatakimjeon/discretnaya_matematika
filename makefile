@@ -1,5 +1,5 @@
 CFLAGS = -Wall -Wextra -std=c99
-SRC = src/subset_iterator.c
+SRC = src/subset_iterator.h
 TARGET = bin/main
 
 all: $(TARGET)
