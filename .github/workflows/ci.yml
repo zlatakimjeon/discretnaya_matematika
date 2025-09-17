@@ -7,5 +7,5 @@ jobs:
     - uses: actions/checkout@v4
     - run: sudo apt-get install -y gcc
     - run: mkdir -p bin
-    - run: gcc -Wall -std=c99 -o bin/main src/subset_iterator.c
+    - run: gcc -Wall -std=c99 -o bin/main subset_iterator.c
     - run: echo "Build successful"
