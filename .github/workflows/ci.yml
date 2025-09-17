@@ -1,11 +1,54 @@
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: sudo apt-get install -y gcc
-    - run: mkdir -p bin
-    - run: gcc -Wall -std=c99 -o bin/main subset_iterator.c
-    - run: echo "Build successful"
+    
+    - name: Check files structure
+      run: |
+        echo "Содержимое репозитория:"
+        ls -la
+        echo "Содержимое папки src:"
+        ls -la src/
+        echo "Содержимое папки tests:"
+        ls -la tests/
+        
+        if [ ! -f "src/subset_iterator.c" ]; then
+          echo "ERROR: Файл src/subset_iterator.c не найден!"
+          exit 1
+        fi
+        
+        if [ ! -f "tests/test_runner.c" ]; then
+          echo "ERROR: Файл tests/test_runner.c не найден!"
+          exit 1
+        fi
+        
+        if [ ! -f "tests/test_subset_iterator.c" ]; then
+          echo "ERROR: Файл tests/test_subset_iterator.c не найден!"
+          exit 1
+        fi
+    
+    - name: Install dependencies
+      run: sudo apt-get install -y gcc
+    
+    - name: Create bin directory
+      run: mkdir -p bin
+    
+    - name: Build main program
+      run: gcc -Wall -Wextra -std=c99 -o bin/main src/subset_iterator.c
+    
+    - name: Build tests
+      run: gcc -Wall -Wextra -std=c99 -o bin/test_runner tests/test_runner.c tests/test_subset_iterator.c
+    
+    - name: Run tests
+      run: ./bin/test_runner
+    
+    - name: Strict compilation check
+      run: |
+        gcc -Wall -Wextra -Werror -std=c99 -c src/subset_iterator.c
+        gcc -Wall -Wextra -Werror -std=c99 -c tests/test_subset_iterator.c
+    
+    - name: Build success
+      run: echo "✅ Build and tests completed successfully"
