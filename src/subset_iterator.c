@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "subset_iterator.h"
+#include "set.h"
 
 // Структура подмножества
 typedef struct Set {

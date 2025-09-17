@@ -1,7 +1,7 @@
 #ifndef SUBSET_ITERATOR_H
 #define SUBSET_ITERATOR_H
 
-#include "set.h"
+typedef struct set set_t;
 
 typedef struct {
     int n;
