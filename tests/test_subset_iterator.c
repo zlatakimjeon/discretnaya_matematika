@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <string.h>
-#include "../src/subset_iterator.h"
+#include "subset_iterator.h"
 
 // Тест инициализации итератора
 void test_iterator_init() {
